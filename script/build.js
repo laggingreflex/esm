@@ -11,6 +11,7 @@ const trash = require("./trash.js")
 const argv = require("yargs")
   .boolean("prod")
   .boolean("test")
+  .boolean("watch")
   .argv
 
 const NODE_ENV =
@@ -46,8 +47,9 @@ const trashPaths = [
 const webpackArgs = [
   argv.prod && ! argv.test
     ? "--display-optimization-bailout"
-    : "--hide-modules"
-]
+    : "--hide-modules",
+  argv.watch && '--watch'
+].filter(Boolean)
 
 function cleanJSON() {
   // Remove dependencies field, added by npm@5, from package.json.
